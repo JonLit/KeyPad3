@@ -34,3 +34,8 @@ This mode WILL have higher latency, especially noticable if your WIFI is bad!
 In the middle:
 * Number of fingers on Screen
 * ID of touch, X Position, Y Position (only for touch 0 and 1)
+
+# LICENSES
+
+Ketai (for getting IP Address): https://github.com/ketai/ketai/blob/master/LICENSE.txt  
+websockets (for communication to/from PC): https://github.com/alexandrainst/processing_websockets/blob/master/LICENSE
