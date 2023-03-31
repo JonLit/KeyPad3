@@ -9,16 +9,19 @@ int touchAmount = 0;
 
 WebsocketServer ws;
 
+void settings() {
+  fullScreen(P2D);
+}
+
 void setup() {
-  fullScreen();
+  //orientation(LANDSCAPE);
+  frameRate(240);
   fingers = new Finger[200];
   for (int i = 0; i < fingers.length; i++){
     fingers[i] = new Finger();
   }
   
   touchMap = new ArrayList<Integer>();
-  
-  frameRate(240);
   
   ws = new WebsocketServer(this, 8025, "/keypad");
 }
