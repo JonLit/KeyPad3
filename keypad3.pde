@@ -14,7 +14,7 @@ void settings() {
 }
 
 void setup() {
-  //orientation(LANDSCAPE);
+  orientation(LANDSCAPE);
   frameRate(240);
   fingers = new Finger[200];
   for (int i = 0; i < fingers.length; i++){
@@ -23,7 +23,17 @@ void setup() {
   
   touchMap = new ArrayList<Integer>();
   
-  ws = new WebsocketServer(this, 8025, "/keypad");
+  boolean worked = false;
+  do {
+    worked = false;
+    try {
+      ws = new WebsocketServer(this, 8025, "/keypad");
+    } catch (Exception e) {
+      worked = false;
+      println("probably couldn't bind socket, trying again");
+    }
+    worked = true;
+  } while (worked == false);
 }
 
 void draw() {
@@ -48,6 +58,39 @@ void draw() {
   }
   //println(str(int(fingers[0].a)) + "," + str(int(fingers[1].a)));
   
+  ws.sendMessage(str(int(fingers[0].a)) + "," + str(int(fingers[1].a)));
+  for (Finger i : fingers) {
+    i.a = false;
+  }
+}
+
+void touchStarted() {
+  //println("touchStarted");
+  for (int i = 0; i < touches.length && i < 2;i++) {
+    fingers[i].a = false;
+  }
+  ws.sendMessage(str(int(fingers[0].a)) + "," + str(int(fingers[1].a)));
+  for (Finger i : fingers) {
+    i.a = false;
+  }
+}
+
+/*void touchMoved() {
+  println("touchMoved");
+  for (int i = 0; i < touches.length && i < 2;i++) {
+    fingers[i].a = false;
+  }
+  ws.sendMessage(str(int(fingers[0].a)) + "," + str(int(fingers[1].a)));
+  for (Finger i : fingers) {
+    i.a = false;
+  }
+}*/
+
+void touchEnded() {
+  //println("touchEnded");
+  for (int i = 0; i < touches.length && i < 2;i++) {
+    fingers[i].a = false;
+  }
   ws.sendMessage(str(int(fingers[0].a)) + "," + str(int(fingers[1].a)));
   for (Finger i : fingers) {
     i.a = false;
